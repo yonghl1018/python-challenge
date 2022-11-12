@@ -2,46 +2,46 @@
 import os
 import csv
 # find path for csv file
-budget_csv = os.path.join("Resources", "budget_data.csv")
+election_csv = os.path.join("Resources", "election_data.csv")
 # create lists to storage value
-mon_change = []
-profit_total = []
-all_date = []
+can_list = []
+name_can = []
+vote_list = []
+percent_list = []
 # set initial value
-n_month = 0
-net_profit = 0
-change_profit = 0
-first_profit = 0
+n_vote = 0
 # open and read file
-with open(budget_csv) as csv_file:
+with open(election_csv) as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=",")
     csv_header = next(csv_reader)
-# run file and get what is needed    
+# run file and get what is needed
     for row in csv_reader:
-        # calculate the total number of months
-        all_date.append(row[0])
-        n_month = n_month + 1
-        # calculate net total amount of profit
-    
-        net_profit = net_profit + int(row[1])
-        profit_total.append(row[1])
-        # find the average of change
-        last_profit = int(row[1])
-        monthly_profit = last_profit - first_profit
-        mon_change.append(monthly_profit)
-        change_profit = change_profit + monthly_profit
-        first_profit = last_profit
-        avg_profit_change = (change_profit/n_month)
-        # find 2 greatest
-        in_profit = max(profit_total)
-        de_loss = min(profit_total)
-        in_date = all_date[profit_total.index(in_profit)]
-        de_date = all_date[profit_total.index(de_loss)]
+        # calculate the total number of ballot
+        n_vote = n_vote + 1
+        can_list.append(row[2])
+    for x in set(can_list):
+        # calculate the vote for each candidiate
+        name_can.append(x)
+        y = can_list.count(x)
+        vote_list.append(y)
+        percentage = (y/n_vote)*100
+        percent_list.append(percentage)
+    can1 = (name_can[0] + ": " + str(percent_list[0]) + "% (" + str(vote_list[0]) + ")")
+    can2 = (name_can[1] + ": " + str(percent_list[1]) + "% (" + str(vote_list[1]) + ")")
+    can3 = (name_can[2] + ": " + str(percent_list[2]) + "% (" + str(vote_list[2]) + ")")
+    win_vote = max(vote_list)    
+    winner = name_can[vote_list.index(win_vote)]
+
+
 # print the result
-    print("Financial Analysis")
-    print("-"*20)
-    print("Total Months: " + str(n_month))
-    print("Total: " + "$" + str(net_profit))
-    print("Average Change: " + "$" + str(avg_profit_change))
-    print("Greatest Increase in Profits: " + str(in_date) + " ($" + str(in_profit) + ")")
-    print("Greatest Increase in Profits: " + str(de_date) + " ($" + str(de_loss) + ")")
+print("Election Results")
+print("-"*20)
+print("Total Votes: " + str(n_vote))
+print("-"*20)
+print(can1)
+print(can2)
+print(can3)
+print("-"*20)
+print("The winner is: " + winner)
+print("-"*20)
+print(y)
